@@ -185,11 +185,73 @@ export async function POST(req: Request) {
     // -----------------------------
     // TRANSACTION START
     // -----------------------------
-    const exam = await prisma.$transaction(
-      async (tx) => {
-        let totalMarks = 0; // Initialize total marks
 
-        /* ---- Create Exam with temporary 0 total_marks ---- */
+    // For PYQ exams, validate and prepare metadata BEFORE transaction
+    let pyqMetaData: {
+      subject: string;
+      categoryType: string;
+      category: string;
+      set_number: number | null;
+    } | null = null;
+
+    if (examTitle.startsWith("[PYQ]")) {
+      const parts = examTitle.split("|").map((p) => p.trim());
+
+      if (parts.length < 4) {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Invalid PYQ format. Expected: [PYQ]|<subject>|<type>|<category>|[Set-N]",
+          },
+          { status: 400 },
+        );
+      }
+
+      const [, subject, rawType, category, setPart] = parts;
+
+      const typeMap: any = {
+        topic: "topic",
+        "topic-wise": "topic",
+        difficulty: "difficulty",
+        "difficulty-wise": "difficulty",
+        "answer-type": "answer_type",
+        answer_type: "answer_type",
+      };
+
+      const normalizedType = typeMap[rawType?.toLowerCase()?.trim()];
+
+      if (!normalizedType) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: `Invalid PYQ type: ${rawType}. Use: topic, difficulty, or answer-type`,
+          },
+          { status: 400 },
+        );
+      }
+
+      let set_number: number | null = null;
+      if (setPart) {
+        const match = setPart.match(/Set-(\d+)/i);
+        if (match) {
+          set_number = Number(match[1]);
+        }
+      }
+
+      pyqMetaData = {
+        subject: subject.trim(),
+        categoryType: normalizedType,
+        category: category.trim(),
+        set_number,
+      };
+    }
+
+    const createdExam = await prisma.$transaction(
+      async (tx) => {
+        let totalMarks = 0;
+
+        /* ---- Create Exam ---- */
         const exam = await tx.exams.create({
           data: {
             exam_title: examTitle,
@@ -207,6 +269,16 @@ export async function POST(req: Request) {
             created_by: userId,
           },
         });
+
+        // Insert PYQ metadata if applicable
+        if (pyqMetaData) {
+          await tx.pyq_exam_meta.create({
+            data: {
+              exam_id: exam.exam_id,
+              ...pyqMetaData,
+            },
+          });
+        }
 
         // -----------------------------
         // INSERT exam_subject_configs (AUTO + MANUAL)
@@ -350,7 +422,7 @@ export async function POST(req: Request) {
         selectionMode === "manual"
           ? "Exam created with selected questions"
           : "Exam created with random questions",
-      examId: exam.exam_id,
+      examId: createdExam.exam_id,
     });
   } catch (error: any) {
     console.error("Error creating exam:", error);

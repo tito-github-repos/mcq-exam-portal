@@ -50,6 +50,8 @@ const StudentHeader: React.FC<Props> = ({ onMenuClick, title, sidebarOpen = true
         return 'Take Exam';
       case '/student-pages/my_exams':
         return 'My Exams';
+         case '/student-pages/previous_year_questions':
+        return 'Previous Year Questions ';
       case '/student-pages/exam_history':
         return 'My Exam History';
       case '/student-pages/exam_res_rev':

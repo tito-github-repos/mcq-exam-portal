@@ -324,6 +324,101 @@ export async function PUT(
       });
       console.log("🧾 examQuestionsData:", examQuestionsData);
 
+      // =====================================================
+      // PYQ META UPDATE
+      // =====================================================
+
+      const isPYQ = examTitle.startsWith("[PYQ]");
+
+      const existingMeta = await tx.pyq_exam_meta.findUnique({
+        where: {
+          exam_id: examId,
+        },
+      });
+
+      if (isPYQ) {
+        const parts = examTitle.split("|").map((p) => p.trim());
+
+        if (parts.length < 4) {
+          throw new Error(
+            "Invalid PYQ format. Expected: [PYQ]|<subject>|<type>|<category>|[Set-N]",
+          );
+        }
+
+        const [, subject, rawType, category, setPart] = parts;
+
+        const typeMap: any = {
+          topic: "topic",
+          "topic-wise": "topic",
+          difficulty: "difficulty",
+          "difficulty-wise": "difficulty",
+          "answer-type": "answer_type",
+          answer_type: "answer_type",
+        };
+
+        const normalizedType = typeMap[rawType?.toLowerCase()?.trim()];
+
+        if (!normalizedType) {
+          throw new Error(
+            `Invalid PYQ type: ${rawType}. Use: topic, difficulty, or answer-type`,
+          );
+        }
+
+        let set_number: number | null = null;
+
+        if (setPart) {
+          const match = setPart.match(/set[-_\s]?(\d+)/i);
+
+          if (match) {
+            set_number = Number(match[1]);
+          }
+        }
+
+        // ---------------------------------------
+        // UPDATE existing meta
+        // ---------------------------------------
+        if (existingMeta) {
+          await tx.pyq_exam_meta.update({
+            where: {
+              exam_id: examId,
+            },
+            data: {
+              subject: subject.trim(),
+              categoryType: normalizedType,
+              category: category.trim(),
+              set_number,
+            },
+          });
+        }
+
+        // ---------------------------------------
+        // CREATE new meta
+        // ---------------------------------------
+        else {
+          await tx.pyq_exam_meta.create({
+            data: {
+              exam_id: examId,
+              subject: subject.trim(),
+              categoryType: normalizedType,
+              category: category.trim(),
+              set_number,
+            },
+          });
+        }
+      }
+
+      // ---------------------------------------
+      // DELETE meta if changed from PYQ
+      // to normal exam
+      // ---------------------------------------
+      else if (existingMeta) {
+        await tx.pyq_exam_meta.delete({
+          where: {
+            exam_id: examId,
+          },
+        });
+      }
+
       /* ---------- UPDATE EXAM ---------- */
       await tx.exams.update({
         where: { exam_id: examId },
