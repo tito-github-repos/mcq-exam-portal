@@ -102,17 +102,16 @@ export async function GET(req: Request) {
    AUTO ASSIGN PYQ EXAMS
 ====================================================== */
 
-    // 1. Get all PYQ exams
-    const pyqExams = await prisma.exams.findMany({
-      where: {
-        exam_title: {
-          startsWith: "[PYQ]",
-         
-        },
-      },
-    });
-      console.log("===========PYQ Exams============:", pyqExams);
-    // 2. Get already assigned exams for this student
+     // 1. Get all PYQ exams
+     const pyqExams = await prisma.exams.findMany({
+       where: {
+         exam_title: {
+           startsWith: "[PYQ]",
+         },
+       },
+     });
+
+     // 2. Get already assigned exams for this student
     const existingAssignments = await prisma.exam_assignment_students.findMany({
       where: { student_id: studentId },
       include: {

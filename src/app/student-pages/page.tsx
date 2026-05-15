@@ -24,6 +24,7 @@ import GradeIcon from "@mui/icons-material/Grade";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { FaHistory } from "react-icons/fa";
 
 const MAIN_BG = "#f5f7fa";
 const CARD_BG = "#ffffff";
@@ -729,6 +730,8 @@ export default function StudentDashboard() {
   };
 
   return (
+
+    
     <Box
       sx={{
         display: "flex",
@@ -749,6 +752,8 @@ export default function StudentDashboard() {
             gap: { xs: 1.5, sm: 2, md: 2.5 },
           }}
         >
+
+          
           <StatCard
             icon={<AssignmentIcon />}
             label="Available Exams"
@@ -779,6 +784,76 @@ export default function StudentDashboard() {
           />
         </Box>
       </Box>
+      
+      <Card
+  sx={{
+    borderRadius: 4,
+    overflow: "hidden",
+    position: "relative",
+    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    color: "#fff",
+    p: 3,
+    minHeight: 220,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+  }}
+>
+  <Box>
+    <Avatar
+      sx={{
+        bgcolor: "rgba(255,255,255,0.2)",
+        width: 56,
+        height: 56,
+        mb: 2,
+      }}
+    >
+      <FaHistory size={26} />
+    </Avatar>
+
+    <Typography
+      variant="h5"
+      sx={{
+        fontWeight: 700,
+        mb: 1,
+      }}
+    >
+      Previous Year Questions
+    </Typography>
+
+    <Typography
+      sx={{
+        opacity: 0.9,
+        lineHeight: 1.7,
+        fontSize: "0.95rem",
+      }}
+    >
+      Access subject-wise previous year question papers and sharpen your
+      preparation with real exam practice.
+    </Typography>
+  </Box>
+
+  <Button
+    variant="contained"
+    onClick={() => router.push("/student-pages/previous_year_questions")}
+    sx={{
+      mt: 3,
+      alignSelf: "flex-start",
+      bgcolor: "#fff",
+      color: "#5b21b6",
+      fontWeight: 700,
+      textTransform: "none",
+      px: 3,
+      borderRadius: 2,
+      "&:hover": {
+        bgcolor: "#f3f4f6",
+      },
+    }}
+  >
+    Start Practice
+  </Button>
+</Card>
 
       {/* Available Exams */}
       <Box sx={{ mb: { xs: 2, sm: 3, md: 3.75 } }}>

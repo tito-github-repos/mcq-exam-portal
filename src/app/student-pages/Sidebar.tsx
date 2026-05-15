@@ -16,6 +16,7 @@ import {
   BarChart,
   History,
   Person,
+  QuestionAnswer,
 } from '@mui/icons-material';
 import { FaTachometerAlt, FaSignOutAlt } from 'react-icons/fa';
 import styles from '../components/Sidebar.module.css';
@@ -35,6 +36,7 @@ const Sidebar: React.FC<Props> = ({ isOpen = true, onShowNavigationWarning }) =>
     { text: 'Dashboard', icon: <FaTachometerAlt />, route: '/student-pages' },
     // { text: 'Take Exam', icon: <Assignment />, route: '/student-pages/exam_taking' },
     { text: 'My Exams', icon: <Assignment />, route: '/student-pages/my_exams' },
+    { text: ' PYQ Exams', icon: <QuestionAnswer />, route: '/student-pages/previous_year_questions' },
     { text: 'Exam History', icon: <History />, route: '/student-pages/exam_history' },
     { text: 'Progress', icon: <BarChart />, route: '/student-pages/student_progress' },
     { text: 'My Profile', icon: <Person />, route: '/student-pages/profile_settings' },
