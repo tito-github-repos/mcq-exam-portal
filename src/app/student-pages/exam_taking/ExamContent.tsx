@@ -16,6 +16,7 @@ interface Question {
   text: string;
   options: { id: string; text: string }[];
   correctAnswer: string;
+  difficultyLevel?: "Easy" | "Medium" | "Hard";
 }
 
 interface ExamData {
@@ -378,10 +379,7 @@ const ExamContent: React.FC = () => {
     if (allowNavigation) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.key === "F5" ||
-        ((e.ctrlKey || e.metaKey) && e.key === "r")
-      ) {
+      if (e.key === "F5" || ((e.ctrlKey || e.metaKey) && e.key === "r")) {
         e.preventDefault();
         setShowLeaveModal(true);
       }
@@ -566,6 +564,22 @@ const ExamContent: React.FC = () => {
         (questionTimeMap.current[currentQ.id] || 0) + spent;
       questionStartRef.current = now;
     }
+  };                
+
+  const getCutoffTime = (difficulty?: string) => {
+    switch (difficulty || "") {
+      case "Easy":
+        return 20;
+
+      case "Medium":
+        return 40;
+
+      case "Hard":
+        return 60;
+
+      default:
+        return 40;
+    }
   };
 
   const formatTime = (seconds: number) => {
@@ -599,6 +613,8 @@ const ExamContent: React.FC = () => {
     }
   };
 
+ 
+
   const toggleFlag = () => {
     setFlaggedQuestions((prev) => {
       const newSet = new Set(prev);
@@ -611,6 +627,7 @@ const ExamContent: React.FC = () => {
     });
   };
 
+ 
   const clearAnswer = () => {
     const currentQ = getCurrentQuestion();
     if (currentQ) {
@@ -923,6 +940,11 @@ const ExamContent: React.FC = () => {
               </p>
               <ul className={styles.instructionsList}>
                 <li>Select only one answer for each question.</li>
+                <li>
+                  Each question has a recommended cut-off time based on its
+                  difficulty level. Finishing within the suggested time helps
+                  improve speed and exam performance.
+                </li>
                 <li>You may flag questions for review before submitting.</li>
                 <li>
                   The exam will be automatically submitted when the timer
@@ -967,6 +989,14 @@ const ExamContent: React.FC = () => {
                       ? "Remove Flag"
                       : "Flag for Review"}
                   </button>
+                 
+                  <div className={styles.cutoffContainer}>
+                    <i className="fas fa-stopwatch"></i>
+                    <span className={styles.cutoffLabel}>Cut-off Time:</span>
+                    <span className={styles.cutoffValue}>
+                      {getCutoffTime(currentQ?.difficultyLevel)} sec
+                    </span>
+                  </div>
                   <button
                     className={`${styles.btn} ${styles.btnClear}`}
                     onClick={clearAnswer}
@@ -982,7 +1012,7 @@ const ExamContent: React.FC = () => {
                   <>
                     <div
                       className={styles.questionText}
-                      style={{ whiteSpace: "pre-wrap",fontWeight: 600}}
+                      style={{ whiteSpace: "pre-wrap", fontWeight: 600 }}
                     >
                       {currentQ.text}
                     </div>

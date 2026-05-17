@@ -114,6 +114,7 @@ export async function GET(req: Request) {
         questions: storedQuestions.map((q) => ({
           id: q.questions.question_id,
           text: q.questions.question_text,
+          difficultyLevel: q.questions.difficulty,
           options: [
             { id: "A", text: q.questions.option_a },
             { id: "B", text: q.questions.option_b },
@@ -154,6 +155,7 @@ export async function GET(req: Request) {
         ...topicQuestions.map((q) => ({
           id: q.question_id,
           text: q.question_text,
+          difficultyLevel: q.difficulty,
           options: [
             { id: "A", text: q.option_a },
             { id: "B", text: q.option_b },

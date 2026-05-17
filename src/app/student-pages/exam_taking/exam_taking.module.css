@@ -399,6 +399,46 @@
   background: #dc3545;
 }
 
+/* .btnReview {
+  background: #2575fc;
+  color: white;
+}
+
+.btnReview:hover {
+  background: #1d5fc7;
+} */
+
+.cutoffContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #2575fc;
+  border-radius: 5px;
+  color: #2575fc;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.cutoffContainer:hover {
+  background: #f0f5ff;
+}
+
+.cutoffContainer i {
+  font-size: 14px;
+}
+
+.cutoffLabel {
+  color: #555;
+}
+
+.cutoffValue {
+  color: #2575fc;
+  font-weight: 700;
+}
+
 .btnClear {
   background: #6c757d;
   color: white;
