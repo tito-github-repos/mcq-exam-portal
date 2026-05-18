@@ -992,3 +992,60 @@
     flex-direction: column;
   }
 }
+.timerCard {
+  min-width: 240px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.timerTop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.timerValue {
+  letter-spacing: 1px;
+}
+
+.timerBottom {
+  margin-top: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 4px;
+}
+
+.timerStatus {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cutoffMini {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* GREEN */
+.timerGood {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+/* ORANGE */
+.timerWarning {
+  background: linear-gradient(135deg, #ea580c, #f97316);
+}
+
+/* RED */
+.timerDanger {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
