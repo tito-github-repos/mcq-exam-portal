@@ -50,7 +50,7 @@ const ExamContent: React.FC = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
-  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(
+   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(
     new Set(),
   );
   const [timeLeft, setTimeLeft] = useState(0);
@@ -617,7 +617,7 @@ const ExamContent: React.FC = () => {
     const totalSpent =
       (questionTimeMap.current[currentQ.id] || 0) + liveQuestionTime;
 
-    const cutoff = getCutoffTime(currentQ.difficultyLevel);
+    const cutoff = getCutoffTime(currentQ?.difficultyLevel);
 
     // 75% warning stage
     const warningTime = cutoff * 0.75;
@@ -669,7 +669,7 @@ const ExamContent: React.FC = () => {
       }
       return newSet;
     });
-  };
+   };
 
   const clearAnswer = () => {
     const currentQ = getCurrentQuestion();
@@ -906,33 +906,33 @@ const ExamContent: React.FC = () => {
               {examData!.totalQuestions} questions • {examData!.duration}{" "}
               minutes • {examData!.points || 200} points
             </p>
-          </div>
-          <div
-            className={`${styles.timerCard} ${
-              getQuestionTimerStatus().className
-            }`}
-          >
-            <div className={styles.timerTop}>
-              <i className="fas fa-clock"></i>
-
-              <span className={styles.timerValue}>{formatTime(timeLeft)}</span>
             </div>
-
-            <div className={styles.timerBottom}>
-              <span className={styles.timerStatus}>
-                {getQuestionTimerStatus().status}
-              </span>
-
-              <span className={styles.cutoffMini}>
-                {(questionTimeMap.current[currentQ?.id || 0] || 0) +
-                  liveQuestionTime}{" "}
-                / {getCutoffTime(currentQ?.difficultyLevel)} sec
-              </span>
+            <div
+              className={`${styles.timerCard} ${
+                getQuestionTimerStatus().className
+              }`}
+            >
+              <div className={styles.timerMain}>
+                <i className="fas fa-clock"></i>
+                <span>{formatTime(timeLeft)}</span>
+              </div>
+              <div className={styles.timerRight}>
+                <span className={styles.timerStatusTop}>
+                  {formatTime(
+                    (questionTimeMap.current[currentQ?.id || 0] || 0) +
+                      liveQuestionTime,
+                  )}
+                  {" / "}
+                  {getCutoffTime(currentQ?.difficultyLevel)} sec
+                </span>
+                <span className={styles.timerStatusBottom}>
+                  {getQuestionTimerStatus().status}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className={styles.examContent}>
+          <div className={styles.examContent}>
           {/* Question Navigator Sidebar */}
           <div
             className={`${styles.questionSidebar} ${
@@ -1060,7 +1060,6 @@ const ExamContent: React.FC = () => {
                       ? "Remove Flag"
                       : "Flag for Review"}
                   </button>
-
                   <div className={styles.cutoffContainer}>
                     <i className="fas fa-stopwatch"></i>
                     <span className={styles.cutoffLabel}>Cut-off Time:</span>

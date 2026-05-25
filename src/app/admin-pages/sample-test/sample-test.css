@@ -1,0 +1,336 @@
+/* MAIN SECTION */
+
+.sample-test-wrapper {
+  padding: 40px 0;
+  background: linear-gradient(to bottom, #f8fafc, #eef7f2);
+}
+
+.sample-main-card {
+  border-radius: 34px !important;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* TABLE */
+
+.analysis-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+}
+
+.analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.analysis-table thead tr {
+  background: #0f172a;
+}
+
+.table-head {
+  padding: 16px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #1e293b;
+}
+
+.table-cell {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.subject-cell {
+  font-weight: 700;
+}
+
+.total-row {
+  background: #f8fafc;
+}
+
+.total-cell {
+  font-weight: 800;
+}
+
+/* MOCK TEST SECTION */
+
+.mock-test-section {
+  margin-top: 80px;
+}
+
+.mock-card-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+.mock-card {
+  border-radius: 24px !important;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  background: #fff;
+  transition: 0.3s;
+  min-height: 220px;
+}
+
+.mock-card:hover {
+  transform: translateY(-6px);
+  border-color: #19c880;
+  box-shadow: 0 10px 30px rgba(25, 200, 128, 0.08);
+}
+
+.mock-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: #ecfdf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .mock-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .mock-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================
+   UPSC TEST PLAN SECTION
+========================================= */
+
+.upsc-plan-section {
+  margin-top: 70px;
+}
+
+.plan-heading-wrapper {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.plan-main-heading {
+  font-size: clamp(1.8rem, 4vw, 2.5rem) !important;
+  font-weight: 900 !important;
+  color: #0f172a;
+  line-height: 1.1;
+}
+
+.green-text {
+  color: #19c880;
+}
+
+.plan-sub-heading {
+  margin-top: 10px !important;
+  color: #64748b;
+  font-size: 0.98rem !important;
+}
+
+/* TABLE WRAPPER */
+
+.test-plan-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 28px;
+  border: 1px solid #e2e8f0;
+  background: white;
+}
+
+.test-plan-inner {
+  min-width: 1100px;
+  padding: 24px;
+}
+
+/* GRID */
+
+.month-grid,
+.plan-row {
+  display: grid;
+  grid-template-columns: 85px repeat(12, minmax(70px, 1fr));
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* EMPTY CELL */
+
+.empty-cell {
+  height: 40px;
+}
+
+/* MONTH BOX */
+
+.month-box {
+  background: #19c880;
+  color: white;
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+/* DAY LABEL */
+
+.day-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  padding-left: 4px;
+}
+
+/* SUBJECT BOX */
+
+.subject-box,
+.mock-test-box,
+.essay-box,
+.gs-box {
+  min-height: 50px;
+
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 6px 8px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  line-height: 1.25;
+
+  border: 1px solid #e2e8f0;
+
+  color: #334155;
+
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* SMALL BOX FOR SCIENCE */
+
+.subject-small {
+  min-height: 44px;
+  font-size: 0.66rem;
+  padding: 5px;
+}
+
+/* SUBJECT COLORS */
+
+.env-box {
+  background: #dcfce7;
+}
+
+.geo-box {
+  background: #dbeafe;
+}
+
+.sci-box {
+  background: #ede9fe;
+}
+
+.polity-box {
+  background: #ffedd5;
+}
+
+.eco-box {
+  background: #fee2e2;
+}
+
+.history-box {
+  background: #fef3c7;
+}
+
+.csat-box {
+  background: #cffafe;
+}
+
+/* MOCK TEST */
+
+.mock-test-box {
+  background: #f8fafc;
+}
+
+/* MAINS SECTION */
+
+.mains-section {
+  margin-top: 30px;
+}
+
+.mains-heading {
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  color: #0f172a;
+  margin-bottom: 18px !important;
+}
+
+/* ESSAY */
+
+.essay-box {
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+}
+
+/* GS */
+
+.gs-box {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .test-plan-inner {
+    min-width: 950px;
+    padding: 18px;
+  }
+
+  .month-grid,
+  .plan-row {
+    grid-template-columns: 65px repeat(12, minmax(60px, 1fr));
+    gap: 6px;
+  }
+
+  .month-box {
+    font-size: 0.68rem;
+    padding: 8px 2px;
+  }
+
+  .day-label {
+    font-size: 0.7rem;
+  }
+
+  .subject-box,
+  .mock-test-box,
+  .essay-box,
+  .gs-box {
+    min-height: 42px;
+    font-size: 0.58rem;
+    padding: 4px;
+  }
+
+  .subject-small {
+    min-height: 38px;
+    font-size: 0.55rem;
+  }
+}
