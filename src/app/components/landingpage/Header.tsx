@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   AppBar,
@@ -100,10 +101,7 @@ interface DesktopNavItemProps {
   isActive: boolean;
 }
 
-const DesktopNavItem: React.FC<DesktopNavItemProps> = ({
-  item,
-  isActive,
-}) => {
+const DesktopNavItem: React.FC<DesktopNavItemProps> = ({ item, isActive }) => {
   return (
     <Box sx={{ position: "relative" }}>
       <Link
@@ -162,13 +160,13 @@ const DesktopNavItem: React.FC<DesktopNavItemProps> = ({
 interface MobileDrawerProps {
   open: boolean;
   onClose: () => void;
-  currentPath: string;
+  pathname: string;
 }
 
 const MobileDrawer: React.FC<MobileDrawerProps> = ({
   open,
   onClose,
-  currentPath,
+  pathname,
 }) => {
   return (
     <Drawer
@@ -218,7 +216,7 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({
       {/* Mobile Nav */}
       <List sx={{ px: 1.5, pt: 1.5 }}>
         {NAV_ITEMS.map((item) => {
-          const isActive = currentPath === item.href;
+          const isActive = pathname === item.href;
 
           return (
             <ListItem disablePadding key={item.label} sx={{ mb: 0.5 }}>
@@ -231,9 +229,7 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({
                   px: 2,
                   py: 1.2,
 
-                  background: isActive
-                    ? "rgba(26,107,60,0.08)"
-                    : "transparent",
+                  background: isActive ? "rgba(26,107,60,0.08)" : "transparent",
 
                   "&:hover": {
                     background: "rgba(26,107,60,0.06)",
@@ -279,8 +275,7 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({
             boxShadow: "0 8px 24px rgba(26,107,60,0.28)",
 
             "&:hover": {
-              background:
-                "linear-gradient(135deg, #16a34a 0%, #1a6b3c 100%)",
+              background: "linear-gradient(135deg, #16a34a 0%, #1a6b3c 100%)",
             },
           }}
         >
@@ -293,16 +288,11 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
 const Header: React.FC = () => {
   const theme = useTheme();
+  const pathname = usePathname();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const [currentPath, setCurrentPath] = useState("/");
-
-  useEffect(() => {
-    setCurrentPath(window.location.pathname);
-  }, []);
 
   useEffect(() => {
     if (!isMobile && drawerOpen) {
@@ -388,7 +378,7 @@ const Header: React.FC = () => {
                   <DesktopNavItem
                     key={item.label}
                     item={item}
-                    isActive={currentPath === item.href}
+                    isActive={pathname === item.href}
                   />
                 ))}
               </Stack>
@@ -434,9 +424,7 @@ const Header: React.FC = () => {
                 sx={{
                   color: "#374151",
 
-                  background: drawerOpen
-                    ? "rgba(26,107,60,0.08)"
-                    : "#ffffff",
+                  background: drawerOpen ? "rgba(26,107,60,0.08)" : "#ffffff",
 
                   borderRadius: "12px",
 
@@ -475,7 +463,7 @@ const Header: React.FC = () => {
       <MobileDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        currentPath={currentPath}
+        pathname={pathname}
       />
     </>
   );
