@@ -16,6 +16,7 @@ interface Question {
   text: string;
   options: { id: string; text: string }[];
   correctAnswer: string;
+  difficultyLevel?: "Easy" | "Medium" | "Hard";
 }
 
 interface ExamData {
@@ -49,10 +50,11 @@ const ExamContent: React.FC = () => {
 
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
-  const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(
+   const [flaggedQuestions, setFlaggedQuestions] = useState<Set<number>>(
     new Set(),
   );
   const [timeLeft, setTimeLeft] = useState(0);
+  const [liveQuestionTime, setLiveQuestionTime] = useState(0);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [showNavigator, setShowNavigator] = useState(true);
   const [showLiveWarning, setShowLiveWarning] = useState(false);
@@ -346,6 +348,19 @@ const ExamContent: React.FC = () => {
     return () => clearInterval(timer);
   }, [examData, timeLeft]);
 
+  // Current Question Live Timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const seconds = Math.floor(
+        (Date.now() - questionStartRef.current) / 1000,
+      );
+
+      setLiveQuestionTime(seconds);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentQuestion]);
+
   // Use custom hook to prevent navigation within the application
   usePreventNavigation(!allowNavigation, (href?: string) => {
     setPendingNavigation(href);
@@ -378,10 +393,7 @@ const ExamContent: React.FC = () => {
     if (allowNavigation) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.key === "F5" ||
-        ((e.ctrlKey || e.metaKey) && e.key === "r")
-      ) {
+      if (e.key === "F5" || ((e.ctrlKey || e.metaKey) && e.key === "r")) {
         e.preventDefault();
         setShowLeaveModal(true);
       }
@@ -568,6 +580,22 @@ const ExamContent: React.FC = () => {
     }
   };
 
+  const getCutoffTime = (difficulty?: string) => {
+    switch (difficulty || "") {
+      case "Easy":
+        return 20;
+
+      case "Medium":
+        return 40;
+
+      case "Hard":
+        return 60;
+
+      default:
+        return 40;
+    }
+  };
+
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -576,10 +604,42 @@ const ExamContent: React.FC = () => {
       .padStart(2, "0")}`;
   };
 
-  const getTimerClass = () => {
-    if (timeLeft <= 300) return styles.critical;
-    if (timeLeft <= 600) return styles.warning;
-    return "";
+  const getQuestionTimerStatus = () => {
+    const currentQ = getCurrentQuestion();
+
+    if (!currentQ) {
+      return {
+        className: "",
+        status: "",
+      };
+    }
+
+    const totalSpent =
+      (questionTimeMap.current[currentQ.id] || 0) + liveQuestionTime;
+
+    const cutoff = getCutoffTime(currentQ?.difficultyLevel);
+
+    // 75% warning stage
+    const warningTime = cutoff * 0.75;
+
+    if (totalSpent > cutoff) {
+      return {
+        className: styles.timerDanger,
+        status: "Cutoff Exceeded",
+      };
+    }
+
+    if (totalSpent >= warningTime) {
+      return {
+        className: styles.timerWarning,
+        status: "Time Running Out",
+      };
+    }
+
+    return {
+      className: styles.timerGood,
+      status: "Within Recommended Time",
+    };
   };
 
   const getCurrentQuestion = () => {
@@ -609,7 +669,7 @@ const ExamContent: React.FC = () => {
       }
       return newSet;
     });
-  };
+   };
 
   const clearAnswer = () => {
     const currentQ = getCurrentQuestion();
@@ -624,12 +684,18 @@ const ExamContent: React.FC = () => {
 
   const goToQuestion = (questionNum: number) => {
     saveQuestionTime();
+    //for live timer colorchange
+    questionStartRef.current = Date.now();
+    setLiveQuestionTime(0);
     setCurrentQuestion(questionNum);
   };
 
   const goToPrevious = () => {
     if (currentQuestion > 1) {
       saveQuestionTime();
+      //live timer color chnage
+      questionStartRef.current = Date.now();
+      setLiveQuestionTime(0);
       setCurrentQuestion((prev) => prev - 1);
     }
   };
@@ -637,6 +703,8 @@ const ExamContent: React.FC = () => {
   const goToNext = () => {
     if (examData && currentQuestion < examData.totalQuestions) {
       saveQuestionTime();
+      questionStartRef.current = Date.now();
+      setLiveQuestionTime(0);
       setCurrentQuestion((prev) => prev + 1);
     }
   };
@@ -838,13 +906,33 @@ const ExamContent: React.FC = () => {
               {examData!.totalQuestions} questions • {examData!.duration}{" "}
               minutes • {examData!.points || 200} points
             </p>
+            </div>
+            <div
+              className={`${styles.timerCard} ${
+                getQuestionTimerStatus().className
+              }`}
+            >
+              <div className={styles.timerMain}>
+                <i className="fas fa-clock"></i>
+                <span>{formatTime(timeLeft)}</span>
+              </div>
+              <div className={styles.timerRight}>
+                <span className={styles.timerStatusTop}>
+                  {formatTime(
+                    (questionTimeMap.current[currentQ?.id || 0] || 0) +
+                      liveQuestionTime,
+                  )}
+                  {" / "}
+                  {getCutoffTime(currentQ?.difficultyLevel)} sec
+                </span>
+                <span className={styles.timerStatusBottom}>
+                  {getQuestionTimerStatus().status}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className={`${styles.timer} ${getTimerClass()}`}>
-            <i className="fas fa-clock"></i> <span>{formatTime(timeLeft)}</span>
-          </div>
-        </div>
 
-        <div className={styles.examContent}>
+          <div className={styles.examContent}>
           {/* Question Navigator Sidebar */}
           <div
             className={`${styles.questionSidebar} ${
@@ -923,6 +1011,11 @@ const ExamContent: React.FC = () => {
               </p>
               <ul className={styles.instructionsList}>
                 <li>Select only one answer for each question.</li>
+                <li>
+                  Each question has a recommended cut-off time based on its
+                  difficulty level. Finishing within the suggested time helps
+                  improve speed and exam performance.
+                </li>
                 <li>You may flag questions for review before submitting.</li>
                 <li>
                   The exam will be automatically submitted when the timer
@@ -967,6 +1060,13 @@ const ExamContent: React.FC = () => {
                       ? "Remove Flag"
                       : "Flag for Review"}
                   </button>
+                  <div className={styles.cutoffContainer}>
+                    <i className="fas fa-stopwatch"></i>
+                    <span className={styles.cutoffLabel}>Cut-off Time:</span>
+                    <span className={styles.cutoffValue}>
+                      {getCutoffTime(currentQ?.difficultyLevel)} sec
+                    </span>
+                  </div>
                   <button
                     className={`${styles.btn} ${styles.btnClear}`}
                     onClick={clearAnswer}
@@ -982,7 +1082,7 @@ const ExamContent: React.FC = () => {
                   <>
                     <div
                       className={styles.questionText}
-                      style={{ whiteSpace: "pre-wrap",fontWeight: 600}}
+                      style={{ whiteSpace: "pre-wrap", fontWeight: 600 }}
                     >
                       {currentQ.text}
                     </div>
