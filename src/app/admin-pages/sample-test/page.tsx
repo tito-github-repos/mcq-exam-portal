@@ -22,6 +22,19 @@ import {
   Psychology,
   TrendingUp,
 } from "@mui/icons-material";
+import InsightsIcon from "@mui/icons-material/Insights";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import QuizIcon from "@mui/icons-material/Quiz";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import DescriptionIcon from "@mui/icons-material/Description";
+import TrackChangesIcon from "@mui/icons-material/TrackChanges";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const years = [
   "2011",
@@ -112,13 +125,13 @@ export default function UPSCInsightsSection() {
         <Box
           sx={{
             px: { xs: 2.5, md: 5 },
-            py: { xs: 5, md: 6 },
+            py: { xs: 3, md: 2 },
             background: "linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)",
           }}
         >
           <Stack
             direction={{ xs: "column", lg: "row" }}
-            spacing={{ xs: 5, md: 4 }}
+            spacing={{ xs: 3, md: 2 }}
             alignItems="center"
             justifyContent="space-between"
           >
@@ -184,22 +197,22 @@ export default function UPSCInsightsSection() {
               <Box className="hero-stats-grid">
                 {[
                   {
-                    icon: "📊",
+                    icon: <InsightsIcon />,
                     title: "15 Years",
                     subtitle: "Question Analysis",
                   },
                   {
-                    icon: "📚",
+                    icon: <MenuBookIcon />,
                     title: "7 Subjects",
                     subtitle: "UPSC Coverage",
                   },
                   {
-                    icon: "❓",
+                    icon: <QuizIcon />,
                     title: "100 Questions",
                     subtitle: "Real UPSC Pattern",
                   },
                   {
-                    icon: "🚀",
+                    icon: <RocketLaunchIcon />,
                     title: "365+ Tests",
                     subtitle: "Mock Test Series",
                   },
@@ -230,10 +243,6 @@ export default function UPSCInsightsSection() {
               />
             </Box>
           </Stack>
-
-          {/* EXACT STYLE RIGHT SIDE FEATURE CARDS */}
-
-        
         </Box>
 
         {/* MAIN ANALYSIS SECTION */}
@@ -319,18 +328,25 @@ export default function UPSCInsightsSection() {
           </Stack>
 
           {/* TOGGLE */}
-          <Box display="flex" justifyContent="center" mb={5}>
-            <ToggleButtonGroup
-              value={view}
-              exclusive
-              onChange={(e, val) => val && setView(val)}
-              size={mobile ? "small" : "medium"}
-            >
-              <ToggleButton value="graph">Graph View</ToggleButton>
+         <Box display="flex" justifyContent="center" mb={5}>
+  <ToggleButtonGroup
+    value={view}
+    exclusive
+    onChange={(e, val) => val && setView(val)}
+    size={mobile ? "small" : "medium"}
+    className="custom-toggle-group"
+  >
+    <ToggleButton value="graph" className="custom-toggle-btn">
+      <InsertChartOutlinedIcon className="toggle-icon" />
+      Graph View
+    </ToggleButton>
 
-              <ToggleButton value="table">Table View</ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
+    <ToggleButton value="table" className="custom-toggle-btn">
+      <TableChartIcon className="toggle-icon" />
+      Table View
+    </ToggleButton>
+  </ToggleButtonGroup>
+</Box>
 
           {/* GRAPH VIEW */}
           {view === "graph" && (
@@ -537,27 +553,27 @@ export default function UPSCInsightsSection() {
               {
                 title: "Duration",
                 value: "2 Hours",
-                icon: "⏰",
+                icon: <AccessTimeIcon />,
               },
               {
                 title: "Total Questions",
                 value: "100",
-                icon: "❓",
+                icon: <QuizIcon />,
               },
               {
                 title: "Negative Marking",
                 value: "1/3rd",
-                icon: "🎯",
+                icon: <TrackChangesIcon />,
               },
               {
                 title: "Difficulty",
                 value: "Real UPSC Standard",
-                icon: "📊",
+                icon: <InsightsIcon />,
               },
               {
                 title: "Includes",
                 value: "Solutions, Review & Performance Tracking",
-                icon: "📄",
+                icon: <DescriptionIcon />,
               },
             ].map((item, index) => (
               <Card key={index} elevation={0} className="mock-card">
@@ -889,19 +905,19 @@ export default function UPSCInsightsSection() {
               <Box className="feature-strip">
                 {[
                   {
-                    icon: "🎯",
+                    icon: <TrackChangesIcon />,
                     text: "Understand Exam Trends",
                   },
                   {
-                    icon: "📊",
+                    icon: <AnalyticsIcon />,
                     text: "Analyze Your Performance",
                   },
                   {
-                    icon: "📈",
+                    icon: <TrendingUpIcon />,
                     text: "Improve Your Strategy",
                   },
                   {
-                    icon: "🏆",
+                    icon: <EmojiEventsIcon />,
                     text: "Achieve Your UPSC Dream",
                   },
                 ].map((item, index) => (
@@ -932,22 +948,22 @@ export default function UPSCInsightsSection() {
           <Box className="bottom-feature-container">
             {[
               {
-                icon: "🎯",
+                icon: <InsightsIcon />,
                 title: "Data-Driven Insights",
                 subtitle: "Get accurate analysis of exam trends and patterns.",
               },
               {
-                icon: "📊",
+                icon: <AnalyticsIcon />,
                 title: "Performance Analytics",
                 subtitle: "Identify strengths and weaknesses to improve.",
               },
               {
-                icon: "🧠",
+                icon: <PsychologyIcon />,
                 title: "Smart Preparation",
                 subtitle: "Focus on important topics based on real data.",
               },
               {
-                icon: "🏆",
+                icon: <EmojiEventsIcon />,
                 title: "Success Strategy",
                 subtitle: "Prepare strategically and achieve your UPSC dream.",
               },
