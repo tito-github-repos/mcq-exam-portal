@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import "./sample-test.css";
+import "./upsc-insights.css";
 
 import {
   Box,

@@ -2,7 +2,7 @@
 
 
 import React from 'react';
-import './contact.css';
+import './contacts.css';
 import { useRouter } from 'next/navigation';
 
 import {
@@ -96,7 +96,7 @@ const ContactPage = () => {
                 variant="contained"
                 endIcon={<ArrowForwardIcon />}
                 className="journey-btn"
-               onClick={() => router.push('/')}
+               onClick={() => router.push('/login')}
               >
                 Start Your UPSC Journey
               </Button>
