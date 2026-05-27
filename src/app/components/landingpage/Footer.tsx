@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import NextLink from "next/link";
-
 import {
   Box,
   Container,
@@ -55,10 +53,9 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     title: "Quick Links",
     links: [
       { label: "Home", href: "/" },
-      { label: "Insights", href: "/upsc-insights" },
       { label: "Pricing", href: "/pricing" },
       { label: "Mentorship", href: "/mentorship" },
-      { label: "Contact", href: "/contact" },
+      { label: "Contact", href: "/contacts" },
     ],
   },
   {
@@ -77,7 +74,7 @@ const SOCIAL_LINKS: SocialLink[] = [
     icon: <LinkedInIcon fontSize="small" />,
     href: "https://www.linkedin.com/in/prelims-pass-51b4a1392/",
     label: "LinkedIn",
-    color: "#0A66C2",
+    color: "",
   },
   {
     icon: <InstagramIcon fontSize="small" />,
@@ -126,12 +123,9 @@ const FooterLogo: React.FC = () => (
     direction="row"
     alignItems="center"
     spacing={1.25}
-    component={NextLink}
+    component="a"
     href="/"
-    sx={{
-      textDecoration: "none",
-      display: "inline-flex",
-    }}
+    sx={{ textDecoration: "none", display: "inline-flex" }}
   >
     <Box
       sx={{
@@ -155,10 +149,7 @@ const FooterLogo: React.FC = () => (
         fontSize: "1.5rem",
         letterSpacing: "-0.3px",
         color: COLORS.textPrimary,
-
-        "& span": {
-          color: COLORS.green,
-        },
+        "& span": { color: COLORS.green },
       }}
     >
       Prelims<span>Pass</span>
@@ -189,7 +180,6 @@ const LinkColumn: React.FC<LinkColumnProps> = ({ column }) => (
       {column.links.map((link) => (
         <Link
           key={link.href}
-          component={NextLink}
           href={link.href}
           underline="none"
           sx={{
@@ -241,16 +231,7 @@ const Footer: React.FC = () => {
         overflow: "hidden",
       }}
     >
-      <Container
-        maxWidth="lg"
-        sx={{
-          px: {
-            xs: 2.5,
-            sm: 4,
-            md: 5,
-          },
-        }}
-      >
+      <Container maxWidth="lg" sx={{ px: { xs: 2.5, sm: 4, md: 5 } }}>
         {/* TOP */}
         <Box sx={{ py: 5 }}>
           <Grid container spacing={5} alignItems="flex-start">
@@ -277,7 +258,6 @@ const Footer: React.FC = () => {
                     component="a"
                     href={social.href}
                     target="_blank"
-                    rel="noopener noreferrer"
                     size="small"
                     sx={{
                       width: 36,
@@ -286,7 +266,6 @@ const Footer: React.FC = () => {
                       background: COLORS.bgCard,
                       border: `1px solid ${COLORS.border}`,
                       color: COLORS.textSecondary,
-
                       "&:hover": {
                         background: `${social.color}18`,
                         color: social.color,
@@ -305,9 +284,36 @@ const Footer: React.FC = () => {
               <LinkColumn column={FOOTER_COLUMNS[0]} />
             </Grid>
 
-            {/* PROGRAMS */}
+            {/* PROGRAMS (TEXT ONLY) */}
             <Grid size={{ xs: 6, sm: 6, md: 2 }}>
-              <LinkColumn column={FOOTER_COLUMNS[1]} />
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "0.8rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: COLORS.green,
+                    mb: 2.5,
+                  }}
+                >
+                  Programs
+                </Typography>
+
+                <Stack spacing={1.35}>
+                  {FOOTER_COLUMNS[1].links.map((item) => (
+                    <Typography
+                      key={item.label}
+                      sx={{
+                        fontSize: "0.875rem",
+                        color: COLORS.textSecondary,
+                      }}
+                    >
+                      {item.label}
+                    </Typography>
+                  ))}
+                </Stack>
+              </Box>
             </Grid>
 
             {/* CONTACT */}
@@ -343,7 +349,6 @@ const Footer: React.FC = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         color: COLORS.green,
-                        flexShrink: 0,
                       }}
                     >
                       {item.icon}
@@ -356,10 +361,7 @@ const Footer: React.FC = () => {
                         sx={{
                           fontSize: "0.82rem",
                           color: COLORS.textSecondary,
-
-                          "&:hover": {
-                            color: COLORS.textPrimary,
-                          },
+                          "&:hover": { color: COLORS.textPrimary },
                         }}
                       >
                         {item.text}
@@ -369,7 +371,6 @@ const Footer: React.FC = () => {
                         sx={{
                           fontSize: "0.82rem",
                           color: COLORS.textSecondary,
-                          lineHeight: 1.6,
                         }}
                       >
                         {item.text}
@@ -392,47 +393,25 @@ const Footer: React.FC = () => {
           spacing={1.5}
           sx={{ py: 3 }}
         >
-          <Typography
-            sx={{
-              fontSize: "0.8rem",
-              color: COLORS.textMuted,
-            }}
-          >
+          <Typography sx={{ fontSize: "0.8rem", color: COLORS.textMuted }}>
             © {new Date().getFullYear()} PrelimsPass. All rights reserved.
           </Typography>
 
           <Stack direction="row" spacing={3}>
-            <Link
-              component={NextLink}
-              href="/privacy-policy"
-              underline="none"
-              sx={{
-                fontSize: "0.8rem",
-                color: COLORS.textMuted,
-
-                "&:hover": {
-                  color: COLORS.textSecondary,
-                },
-              }}
-            >
-              Privacy Policy
-            </Link>
-
-            <Link
-              component={NextLink}
-              href="/terms-of-service"
-              underline="none"
-              sx={{
-                fontSize: "0.8rem",
-                color: COLORS.textMuted,
-
-                "&:hover": {
-                  color: COLORS.textSecondary,
-                },
-              }}
-            >
-              Terms of Service
-            </Link>
+            {["Privacy Policy", "Terms of Service"].map((item) => (
+              <Link
+                key={item}
+                href={`/${item.toLowerCase().replace(/ /g, "-")}`}
+                underline="none"
+                sx={{
+                  fontSize: "0.8rem",
+                  color: COLORS.textMuted,
+                  "&:hover": { color: COLORS.textSecondary },
+                }}
+              >
+                {item}
+              </Link>
+            ))}
           </Stack>
         </Stack>
       </Container>
