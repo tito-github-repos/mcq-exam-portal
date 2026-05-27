@@ -1,8 +1,11 @@
 .contact-page {
   background: #f5faf7;
-  padding: 30px 0 80px;
+  padding: 30px 24px 80px;
   overflow: hidden;
+  max-width: 1400px;
+  margin: 0 auto;
 }
+
 
 /* =========================
    TOP SECTION
@@ -184,7 +187,7 @@
 
 @media (max-width: 900px) {
   .contact-page {
-    padding: 60px 0;
+    padding: 40px 20px 60px;
   }
 
   .contact-top-section {
@@ -217,8 +220,8 @@
 ========================= */
 
 @media (max-width: 600px) {
-  .contact-page {
-    padding: 45px 0;
+ .contact-page {
+    padding: 30px 16px 45px;
   }
 
   .contact-title {
