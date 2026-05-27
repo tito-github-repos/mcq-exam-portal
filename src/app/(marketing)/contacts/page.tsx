@@ -28,7 +28,7 @@ const ContactPage = () => {
 
   return (
     <Box className="contact-page">
-      <Container maxWidth="xl">
+      
         {/* TOP SECTION */}
         <Grid
           container
@@ -39,7 +39,7 @@ const ContactPage = () => {
           {/* LEFT CONTENT */}
           <Grid size = {{xs: 12, md: 6}}>
             <Box className="contact-left-content">
-              <Typography variant="h2" className="contact-title">
+              <Typography variant="h3" className="contact-title">
                 CONTACT US
               </Typography>
 
@@ -222,7 +222,7 @@ const ContactPage = () => {
             </Card>
           </Grid>
         </Grid>
-      </Container>
+     
     </Box>
   );
 };
