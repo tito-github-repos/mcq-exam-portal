@@ -120,7 +120,7 @@ export default function UPSCInsightsSection() {
 
   return (
     <Box className="sample-test-wrapper">
-      <Card elevation={0} className="sample-main-card">
+      {/* <Card elevation={0} className="sample-main-card"> */}
         {/* TOP SECTION */}
         <Box
           sx={{
@@ -984,7 +984,7 @@ export default function UPSCInsightsSection() {
             ))}
           </Box>
         </Box>
-      </Card>
+      
     </Box>
   );
 }
